@@ -4,7 +4,7 @@
 require 'rb-inotify'
 require 'singleton'
 
-module CoffeeWithoutNodejs
+module Js2coffee
   class CoffeeWatcher
     include Singleton
 

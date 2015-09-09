@@ -4,7 +4,7 @@
 require 'execjs'
 require 'pathname'
 
-module CoffeeWithoutNodejs
+module Js2coffee
   module CoffeeCompiler
     class << self
       attr_writer :source

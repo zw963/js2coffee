@@ -6,7 +6,7 @@ require 'coderay'
 require 'optparse'
 
 if File.pipe?($stdin)
-  content = CoffeeWithoutNodejs.compile($stdin.read).to_s
+  content = Js2coffee.compile($stdin.read).to_s
   unless content.empty?
     token = CodeRay.scan(content, :js)
     print $stdout.tty? ? token.terminal : token.text
@@ -15,9 +15,9 @@ if File.pipe?($stdin)
 end
 
 if ARGV.empty?
-  CoffeeWithoutNodejs.send_notify('Starting coffee2js compiler')
+  Js2coffee.send_notify('Starting coffee2js compiler')
   puts "Watching directory \`\033[0;33m#{Dir.pwd}\033[0m' ..."
-  CoffeeWithoutNodejs.watch!
+  Js2coffee.watch!
   exit
 end
 
@@ -30,7 +30,7 @@ filename = ARGV.options do |opts|
     options['eval'] = script
   end
   opts.on_tail('-v', '--version', 'print version information') do
-    puts CoffeeWithoutNodejs::VERSION.to_s
+    puts Js2coffee::VERSION.to_s
     exit
   end
 
@@ -42,16 +42,16 @@ end
 
 if filename.empty?
   # active --eval
-  content = CoffeeWithoutNodejs.compile(options['eval']).to_s
+  content = Js2coffee.compile(options['eval']).to_s
   print CodeRay.scan(content, :js).terminal unless content.empty?
 else
   # no options, only files/directory as args
   dir = filename.first
   if test 'd', dir
     Dir.chdir(dir) do
-      CoffeeWithoutNodejs.send_notify('Starting coffee2js compiler')
+      Js2coffee.send_notify('Starting coffee2js compiler')
       puts "Watching directory \`\033[0;33m#{dir}\033[0m' ..."
-      CoffeeWithoutNodejs.watch!
+      Js2coffee.watch!
     end
   else
     ARGV.each do |file|
@@ -60,7 +60,7 @@ else
         next
       end
 
-      content = CoffeeWithoutNodejs.compile(file).to_s
+      content = Js2coffee.compile(file).to_s
       unless content.empty?
         token = CodeRay.scan(content, :js)
         print $stdout.tty? ? token.terminal : token.text

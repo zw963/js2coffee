@@ -5,7 +5,7 @@ require File.expand_path('../lib/js2coffee/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name                        = 'js2coffee'
-  s.version                     = CoffeeWithoutNodejs::VERSION
+  s.version                     = Js2coffee::VERSION
   s.date                        = Time.now.strftime('%F')
   s.required_ruby_version       = '>= 1.9.1'
   s.authors                     = ['Billy.Zheng(zw963)']

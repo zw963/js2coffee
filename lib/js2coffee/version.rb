@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-module CoffeeWithoutNodejs
+module Js2coffee
   VERSION = [0, 11, 0]
 
   class << VERSION

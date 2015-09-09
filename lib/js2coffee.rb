@@ -5,7 +5,7 @@ require 'js2coffee/compiler'
 require 'js2coffee/watcher'
 require 'js2coffee/version'
 
-module CoffeeWithoutNodejs
+module Js2coffee
   def self.compile(coffee, bare=true, create_target_jsfile=false)
     if File.file?(coffee)
       CoffeeCompiler.compile_file(coffee, bare, create_target_jsfile)
