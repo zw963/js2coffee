@@ -1,16 +1,24 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-require 'js2coffee/compiler'
+require 'js2coffee/coffee2js_compiler'
 require 'js2coffee/watcher'
 require 'js2coffee/version'
 
 module Js2coffee
   def self.compile(coffee, bare=true, create_target_jsfile=false)
-    if File.file?(coffee)
-      CoffeeCompiler.compile_file(coffee, bare, create_target_jsfile)
+    if $reverse
+      if File.file?(coffee)
+        Coffee2jsCompiler.compile_file(coffee, bare, create_target_jsfile)
+      else
+        CoffeeCompiler.compile(coffee, bare)
+      end
     else
-      CoffeeCompiler.compile(coffee, bare)
+      if File.file?(coffee)
+        Js2CoffeeCompiler.compile_file(coffee, bare, create_target_jsfile)
+      else
+        Js2coffeeCompiler.compile(coffee, bare)
+      end
     end
   end
 

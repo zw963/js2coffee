@@ -23,11 +23,14 @@ end
 
 options  = {}
 
-filename = ARGV.options do |opts|
-  opts.banner = "compile CoffeeScript to JavaScript.\n\n"
+opt = ARGV.options do |opts|
+  opts.banner = "compile js to coffee, vice versa.\n\n"
 
-  opts.on('-e', "--eval 'coffee script'", 'compile inline coffeescript to js, pretty print to terminal.') do |script|
-    options['eval'] = script
+  opts.on('-e', "--eval 'script'", 'compile inline javascript to coffee, pretty print to terminal.') do |js|
+    options['eval'] = js
+  end
+  opts.on('-r', '--reverse', 'reverse, compile coffee to js.') do
+    $reverse = true
   end
   opts.on_tail('-v', '--version', 'print version information') do
     puts Js2coffee::VERSION.to_s
@@ -36,8 +39,13 @@ filename = ARGV.options do |opts|
 
   opts.on_head("    #{File.basename($0)} path/to/<script_file>, pretty print to terminal, can be redirect to file.")
   opts.on_head("    #{File.basename($0)} path/to/<script_directory>, Watching script changed/created in directory.")
+end
 
-  opts.parse!
+begin
+  filename = opt.parse!
+rescue OptionParser::InvalidOption, OptionParser::MissingArgument
+  puts $!
+  opt.abort(opt.help)
 end
 
 if filename.empty?
