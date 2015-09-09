@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-require 'coffee_without_nodejs'
+require 'js2coffee'
 require 'coderay'
 
 if File.pipe?($stdin)
