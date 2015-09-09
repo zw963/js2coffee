@@ -3,6 +3,7 @@
 
 require 'js2coffee'
 require 'coderay'
+require 'optparse'
 
 if File.pipe?($stdin)
   content = CoffeeWithoutNodejs.compile($stdin.read).to_s
@@ -14,37 +15,56 @@ if File.pipe?($stdin)
 end
 
 if ARGV.empty?
-  `notify-send 'Starting coffee compiler.' -t 1000` if system 'which notify-send &>/dev/null'
+  CoffeeWithoutNodejs.send_notify('Starting coffee2js compiler')
+  puts "Watching directory \`\033[0;33m#{Dir.pwd}\033[0m' ..."
   CoffeeWithoutNodejs.watch!
   exit
 end
 
-if ['-h', '--help'].include? ARGV.first
-  STDERR.puts 'coff -e "coffee script", to compile coffee to javascript.'
-  exit
-end
+options  = {}
 
-if ['-e', '--eval'].include? ARGV.first
-  ARGV.shift
-  content = CoffeeWithoutNodejs.compile(ARGV.first).to_s
-  print CodeRay.scan(content, :js).terminal unless content.empty?
-  exit
-end
+filename = ARGV.options do |opts|
+  opts.banner = "compile CoffeeScript to JavaScript.\n\n"
 
-if test 'd', ARGV.first
-  Dir.chdir(ARGV.first) { CoffeeWithoutNodejs.watch! }
-  exit
-end
-
-ARGV.each do |file|
-  unless File.exist? file
-    puts "cannot open \`#{file}' for reading: No such file or directory, Skipping"
-    next
+  opts.on('-e', "--eval 'coffee script'", 'compile inline coffeescript to js, pretty print to terminal.') do |script|
+    options['eval'] = script
+  end
+  opts.on_tail('-v', '--version', 'print version information') do
+    puts CoffeeWithoutNodejs::VERSION.to_s
+    exit
   end
 
-  content = CoffeeWithoutNodejs.compile(file).to_s
-  unless content.empty?
-    token = CodeRay.scan(content, :js)
-    print $stdout.tty? ? token.terminal : token.text
+  opts.on_head("    #{File.basename($0)} path/to/<script_file>, pretty print to terminal, can be redirect to file.")
+  opts.on_head("    #{File.basename($0)} path/to/<script_directory>, Watching script changed/created in directory.")
+
+  opts.parse!
+end
+
+if filename.empty?
+  # active --eval
+  content = CoffeeWithoutNodejs.compile(options['eval']).to_s
+  print CodeRay.scan(content, :js).terminal unless content.empty?
+else
+  # no options, only files/directory as args
+  dir = filename.first
+  if test 'd', dir
+    Dir.chdir(dir) do
+      CoffeeWithoutNodejs.send_notify('Starting coffee2js compiler')
+      puts "Watching directory \`\033[0;33m#{dir}\033[0m' ..."
+      CoffeeWithoutNodejs.watch!
+    end
+  else
+    ARGV.each do |file|
+      unless File.exist? file
+        puts "cannot open \`\033[0;33m#{file}\033[0m' for reading: No such file or directory, Skipping"
+        next
+      end
+
+      content = CoffeeWithoutNodejs.compile(file).to_s
+      unless content.empty?
+        token = CodeRay.scan(content, :js)
+        print $stdout.tty? ? token.terminal : token.text
+      end
+    end
   end
 end
