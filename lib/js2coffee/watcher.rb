@@ -20,10 +20,10 @@ module Js2coffee
         # skip temp file.
         next if event.name =~ /^\.#|^#.*\#$/
 
-          start_watch_files
+        start_watch_files
       end
 
-      coffee_files.each do |file|
+      watched_files.each do |file|
         Js2coffee.compile_file(file, true, true)
       end
 
@@ -34,19 +34,19 @@ module Js2coffee
 
     # watch all exist files modify event.
     def start_watch_files
-      coffee_files.each do |file|
+      watched_files.each do |file|
         @notifier.watch(file, :modify) do
           Js2coffee.compile_file(file, true, true)
         end
       end
     end
 
-    def coffee_files
-      all_files = Dir["#@path/**/*.coffee"]
-      if ENV['COFFEE_NOT_WATCH_PATTERN']
-        all_files.reject! {|e| e =~ Regexp.union(ENV['COFFEE_NOT_WATCH_PATTERN']) }
+    def watched_files
+      watched_files = Dir["#@path/**/*.coffee"]
+      if ENV['JS2COFFEE_EXCLUDE_PATTERN']
+        watched_files.reject! {|e| e =~ Regexp.union(ENV['JS2COFFEE_EXCLUDE_PATTERN']) }
       end
-      all_files
+      watched_files
     end
   end
 end
