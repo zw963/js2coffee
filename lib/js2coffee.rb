@@ -8,7 +8,7 @@ require 'js2coffee/version'
 
 module Js2coffee
   def self.compile_file(coffee, bare=true, daemon=false)
-    output = if $reverse
+    output = if $script_extname == 'coffee'
                CoffeeCompiler.compile_file(coffee, bare, daemon)
              else
                JsCompiler.compile_file(coffee, daemon)
@@ -17,7 +17,7 @@ module Js2coffee
   end
 
   def self.compile(coffee, bare=true)
-    output = if $reverse
+    output = if $script_extname == 'coffee'
                CoffeeCompiler.compile(coffee, bare)
              else
                JsCompiler.compile(coffee)

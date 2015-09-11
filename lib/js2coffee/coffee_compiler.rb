@@ -39,14 +39,14 @@ WRAPPER
         puts $!.message
       end
 
-      def compile_file(file, bare=true, create_target_jsfile=false)
+      def compile_file(file, bare=true, daemon=false)
         root_dir = Pathname(Dir.pwd)
         file_path = Pathname(File.expand_path(file))
         source_code = file_path.read
 
         target_js_content = compiler.call(wrapper, source_code, bare: bare)
 
-        if create_target_jsfile
+        if daemon
           js_path, map_path = create_js_path_from(file_path)
           source_files = file_path.relative_path_from(js_path.dirname).to_s
           generated_file = js_path.relative_path_from(js_path.dirname).to_s

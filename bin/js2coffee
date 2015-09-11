@@ -5,6 +5,8 @@ require 'js2coffee'
 require 'coderay'
 require 'optparse'
 
+$script_extname = 'js'
+
 opt = ARGV.options do |opts|
   opts.banner = "compile js to coffee, vice versa.\n\n"
 
@@ -13,7 +15,7 @@ opt = ARGV.options do |opts|
   end
 
   opts.on('-r', '--reverse', 'reverse, compile coffee to js.') do
-    $reverse = true
+    $script_extname = 'coffee'
   end
 
   opts.on_tail('-v', '--version', 'print version information') do

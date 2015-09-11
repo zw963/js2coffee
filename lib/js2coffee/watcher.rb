@@ -10,13 +10,12 @@ module Js2coffee
 
     def initialize
       @notifier = INotify::Notifier.new
-      @path = File.expand_path('.')
 
-      Signal.trap(2) {|sig| Process.exit }
+      Signal.trap(2) {|_sig| Process.exit }
 
       start_watch_files
 
-      @notifier.watch(@path, :moved_from, :moved_to, :create, :delete, :onlydir, :recursive) do |event|
+      @notifier.watch('.', :moved_from, :moved_to, :create, :delete, :onlydir, :recursive) do |event|
         # skip temp file.
         next if event.name =~ /^\.#|^#.*\#$/
 
@@ -42,7 +41,7 @@ module Js2coffee
     end
 
     def watched_files
-      watched_files = Dir["#@path/**/*.coffee"]
+      watched_files = Dir["./**/*.#{$script_extname}"]
       if ENV['JS2COFFEE_EXCLUDE_PATTERN']
         watched_files.reject! {|e| e =~ Regexp.union(ENV['JS2COFFEE_EXCLUDE_PATTERN']) }
       end
