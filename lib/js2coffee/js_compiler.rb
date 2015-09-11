@@ -47,7 +47,7 @@ WRAPPER
         target_js_content = compiler.call(wrapper, source_code, bare: bare)
 
         if create_target_jsfile
-          js_path, map_path = create_js_path_from(file_path)
+          js_path, map_path = create_path_from(file_path)
           source_files = file_path.relative_path_from(js_path.dirname).to_s
           generated_file = js_path.relative_path_from(js_path.dirname).to_s
           relative_map_path = map_path.relative_path_from(js_path.dirname).to_s
@@ -76,7 +76,7 @@ WRAPPER
         puts error_msg
       end
 
-      def create_js_path_from(path)
+      def create_path_from(path)
         # if in coffee directory, will create same level js directory.
         path.descend do |x|
           if x.basename.to_s == 'coffee'
