@@ -5,36 +5,19 @@ require 'js2coffee'
 require 'coderay'
 require 'optparse'
 
-if File.pipe?($stdin)
-  content = Js2coffee.compile($stdin.read).to_s
-  unless content.empty?
-    token = CodeRay.scan(content, :js)
-    print $stdout.tty? ? token.terminal : token.text
-  end
-  exit
-end
-
-if ARGV.empty?
-  Js2coffee.send_notify('Starting coffee2js compiler')
-  puts "Watching directory \`\033[0;33m#{Dir.pwd}\033[0m' ..."
-  Js2coffee.watch!
-  exit
-end
-
-options  = {}
-
 opt = ARGV.options do |opts|
   opts.banner = "compile js to coffee, vice versa.\n\n"
 
-  opts.on('-e', "--eval 'script'", 'compile inline javascript to coffee, pretty print to terminal.') do |js|
-    options['eval'] = js
+  opts.on('-e', "--eval 'script'", 'compile inline javascript to coffee, pretty print to terminal.') do |script|
+    Js2coffee.compile(script)
   end
+
   opts.on('-r', '--reverse', 'reverse, compile coffee to js.') do
     $reverse = true
   end
+
   opts.on_tail('-v', '--version', 'print version information') do
     puts Js2coffee::VERSION.to_s
-    exit
   end
 
   opts.on_head("    #{File.basename($0)} path/to/<script_file>, pretty print to terminal, can be redirect to file.")
@@ -42,37 +25,35 @@ opt = ARGV.options do |opts|
 end
 
 begin
+  opt.abort(opt.help) if ARGV.empty?
   filename = opt.parse!
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument
   puts $!
   opt.abort(opt.help)
 end
 
-if filename.empty?
-  # active --eval
-  content = Js2coffee.compile(options['eval']).to_s
-  print CodeRay.scan(content, :js).terminal unless content.empty?
-else
-  # no options, only files/directory as args
+if File.pipe?($stdin)
+  Js2coffee.compile($stdin.read)
+  exit
+end
+
+# no options, only file/directory argument
+if filename.any?
   dir = filename.first
+
   if test 'd', dir
     Dir.chdir(dir) do
       Js2coffee.send_notify('Starting coffee2js compiler')
-      puts "Watching directory \`\033[0;33m#{dir}\033[0m' ..."
+      puts "Watching directory \`\033[0;33m#{File.expand_path(dir)}\033[0m' ..."
       Js2coffee.watch!
     end
   else
-    ARGV.each do |file|
+    filename.each do |file|
       unless File.exist? file
         puts "cannot open \`\033[0;33m#{file}\033[0m' for reading: No such file or directory, Skipping"
         next
       end
-
-      content = Js2coffee.compile(file).to_s
-      unless content.empty?
-        token = CodeRay.scan(content, :js)
-        print $stdout.tty? ? token.terminal : token.text
-      end
+      Js2coffee.compile_file(file)
     end
   end
 end

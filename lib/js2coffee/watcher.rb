@@ -5,7 +5,7 @@ require 'rb-inotify'
 require 'singleton'
 
 module Js2coffee
-  class CoffeeWatcher
+  class Watcher
     include Singleton
 
     def initialize
@@ -24,19 +24,19 @@ module Js2coffee
       end
 
       coffee_files.each do |file|
-        CoffeeCompiler.compile_file(file, true, true)
+        Js2coffee.compile_file(file, true, true)
       end
 
       # start loop.
       @notifier.run
-      puts 'CoffeeWatcher start successful.'
+      puts 'Watcher is started.'
     end
 
     # watch all exist files modify event.
     def start_watch_files
       coffee_files.each do |file|
         @notifier.watch(file, :modify) do
-          CoffeeCompiler.compile_file(file, true, true)
+          Js2coffee.compile_file(file, true, true)
         end
       end
     end
