@@ -5,23 +5,20 @@ require 'js2coffee/coffee_compiler'
 require 'js2coffee/js_compiler'
 require 'js2coffee/watcher'
 require 'js2coffee/version'
+require 'coderay'
 
 module Js2coffee
-  def self.compile_file(coffee, bare=true, daemon=false)
-    output = if $script_extname == 'coffee'
-               CoffeeCompiler.compile_file(coffee, bare, daemon)
-             else
-               JsCompiler.compile_file(coffee, daemon)
-             end
-    pretty_print(output.to_s) unless daemon
+  def self.compile_file(file, options={})
+    output = $script_extname == 'coffee' ? CoffeeCompiler.compile_file(file, options) : JsCompiler.compile_file(file, options)
+    pretty_print(output.to_s)
   end
 
-  def self.compile(coffee, bare=true)
-    output = if $script_extname == 'coffee'
-               CoffeeCompiler.compile(coffee, bare)
-             else
-               JsCompiler.compile(coffee)
-             end
+  def self.watch_file(file)
+    $script_extname == 'coffee' ? CoffeeCompiler.watch_file(file) : JsCompiler.watch_file(file)
+  end
+
+  def self.compile(coffee, options={})
+    output = $script_extname == 'coffee' ? CoffeeCompiler.compile(coffee, options) : JsCompiler.compile(coffee, options)
     pretty_print(output.to_s)
   end
 

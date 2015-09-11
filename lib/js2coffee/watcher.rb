@@ -23,7 +23,7 @@ module Js2coffee
       end
 
       watched_files.each do |file|
-        Js2coffee.compile_file(file, true, true)
+        Js2coffee.watch_file(file)
       end
 
       # start loop.
@@ -35,7 +35,7 @@ module Js2coffee
     def start_watch_files
       watched_files.each do |file|
         @notifier.watch(file, :modify) do
-          Js2coffee.compile_file(file, true, true)
+          Js2coffee.watch_file(file)
         end
       end
     end
