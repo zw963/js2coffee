@@ -31,6 +31,8 @@ module Js2coffee
       puts 'Watcher is started.'
     end
 
+    private
+
     # watch all exist files modify event.
     def start_watch_files
       watched_files.each do |file|
