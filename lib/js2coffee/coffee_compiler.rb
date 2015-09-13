@@ -8,7 +8,7 @@ require 'js2coffee/compiler'
 
 module Js2coffee
   class CoffeeCompiler < Compiler
-    self.source = 'coffee-script'
+    self.source = 'coffee-script.js'
 
     class << self
       def wrapper

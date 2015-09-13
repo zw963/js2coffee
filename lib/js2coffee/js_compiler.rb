@@ -3,7 +3,7 @@
 
 module Js2coffee
   class JsCompiler < Compiler
-    self.source = 'js2coffee'
+    self.source = 'js2coffee.js'
 
     class << self
       def wrapper

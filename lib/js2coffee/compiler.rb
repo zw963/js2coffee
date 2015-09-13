@@ -13,7 +13,7 @@ module Js2coffee
       end
 
       def source=(new_source)
-        @source = File.read(File.expand_path("../compiler/#{new_source}.js", __FILE__))
+        @source = File.read(File.expand_path("../compiler/#{new_source}", __FILE__))
       end
 
       def wrapper
