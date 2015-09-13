@@ -1,75 +1,58 @@
 # js2coffee [![Build Status](https://travis-ci.org/zw963/js2coffee.svg?branch=master)](https://travis-ci.org/zw963/js2coffee) [![Gem Version](https://badge.fury.io/rb/js2coffee.svg)](http://badge.fury.io/rb/js2coffee)
 
-Convert yours JavaScript code to CoffeeScript,  vice versa.
+Convert yours JavaScript to CoffeeScript, vice versa.
 
 ## Philosophy
 
-* Simple enough, just a command with no more options.
-* Pretty format output with coderay.
-* Watch a directory, convert automaticly when file change, smart enough to create difference
-  file. (see following image.)
-* SourceMap generation automaticly, you can now freely debug CoffeeScript with Firefox/Chrome.
-* With Nodejs, just for Ruby on Rails development.
+* Keep it simple, a command line with no more options.
+* Pretty format output with [coderay](https://github.com/rubychan/coderay).
+* Watch a directory, convert automaticly when file change.
+* SourceMap generation automaticly, for debug with CoffeeScript in Firefox/Chrome.
+* With Nodejs, just for Ruby on Rails developer.
 
-Just for one things, convert between CoffeeScript and JavaScript, simplely & elegantly.
-
-- you create a new coffee files: `coffee/models/product.coffee` in your's project root.
-- I will create/update new js files `js/models/product.js` and `js/models/product.map` for you.
-   
 ## Getting Started
 
 Install via Rubygems
 
     $ gem install js2coffee
 
-Install via bundler
-
-    gem "js2coffee"
-
 ## Usage
 
-    $ coffee2js
-    
-Or ...
+Run `js2coffee` or `js2coffee` individually.
 
-    $ coffee2js some_coffee_files_directory
+### Compile script file to STDOUT.
 
-This will create corresponding js and source map file in same directory as coffee file live in.
-
-![Monitor](http://zw963.github.io/snapshot11.png)
-    
-If one directory named 'coffee' in you project root, and run `coffee2js` in project root.
-will create two new `js` `.map` directory the same level as `coffee` directory,
-with cloned directory hierarchy, store js and source map individually.
-    
-    $ ls
-     coffee/
-     
-    $ coffee2js coffee
-    
-![Monitor](http://zw963.github.io/snapshot14.png)
+    $ coffee2js your_awesome.coffee
 
 Or ...
 
-You always can provide one or more `some_file.coffee' file as arguments.
-This will output compiled js content to STDOUT with very pretty format.
+    $ coffee2js your_awesome.coffee
 
-    $ coffee2js some_path/file1.coffee
+You can redirect STDOUT to a new file.
+
+    $ coffee2js your_awesome.coffee > you_awesome.js
 
 ![File](http://zw963.github.io/snapshot12.png)
 
-You still can use redirect `coffee2js some_path/file1.coffee > another_path/file2.js` to
-save literal js outout to file2.js
+### Watching one directory
 
-Or ...
+    $ coffee2js script_directory
 
+This will create corresponding js(.js) and Source Map(.js.map) in same directory as coffee file live in.
+map file will keep hide with leading dot, e.g. `awesome.js` will create `awesome.coffee and .awesome.js.map`
+
+![Monitor](http://zw963.github.io/snapshot11.png)
+    
+If one directory named `coffee` or named `js` in you project root, will create another directory
+automaticly with cloned directory hierarchy, this will make js and coffee file saved seperately.
+
+![Monitor](http://zw963.github.io/snapshot14.png)
+
+### Compile script directly
 You can run coffee script directly with: `-e` argments or pipe.
 
 ![File](http://zw963.github.io/snapshot15.png)
 ![File](http://zw963.github.io/snapshot16.png)
-
-This gem is extract from [Alternative Script Suite](https://github.com/zw963/ass).
-You can found a lot of useful and interesting scripts here.
 
 ## Support
 
@@ -77,12 +60,11 @@ You can found a lot of useful and interesting scripts here.
   * Rubinius 2.2+
 
 ## Compiler current used:
-  * CoffeeScript 1.9.2 http://coffeescript.org, convert from CoffeeScript to JavaScript.
-  * js2coffee 2.1.0 http://js2.coffee/, convert JavaScript to CoffeeScript.
+  * [CoffeeScript 1.1.0](http://coffeescript.org), used for convert from CoffeeScript to JavaScript.
+  * [js2coffee 2.1.0](http://js2.coffee), used for convert JavaScript to CoffeeScript.
 
 ## History
-
-  More update info, please See [CHANGELOG](https://github.com/zw963/js2coffee/blob/master/CHANGELOG) for details.
+More update info, please See [CHANGELOG](https://github.com/zw963/js2coffee/blob/master/CHANGELOG) for details.
 
 ## Contributing
 
@@ -97,5 +79,4 @@ You can found a lot of useful and interesting scripts here.
     * Send a pull request :D.
 
 ## license
-
 Released under the MIT license, See [LICENSE](https://github.com/zw963/js2coffee/blob/master/LICENSE) for details.
