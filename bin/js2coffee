@@ -10,7 +10,7 @@ opt = ARGV.options do |opts|
   opts.banner = "compile js to coffee, vice versa.\n\n"
 
   opts.on('-e', "--eval 'script'", 'compile inline javascript to coffee, pretty print to terminal.') do |script|
-    Js2coffee.compile(script, bare: true)
+    Js2coffee.compile(script, bare: true, sourceMap: true)
   end
 
   opts.on('-r', '--reverse', 'reverse, compile coffee to js.') do
@@ -54,7 +54,7 @@ if filename.any?
         puts "cannot open \`\033[0;33m#{file}\033[0m' for reading: No such file or directory, Skipping"
         next
       end
-      Js2coffee.compile_file(file, bare: true)
+      Js2coffee.compile_file(file, bare: true, sourceMap: true)
     end
   end
 end

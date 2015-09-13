@@ -32,10 +32,9 @@ module Js2coffee
       end
 
       def compile_file(file, options={})
-        source_code = Pathname(file).read
-        output = compiler.call(wrapper, source_code, options)
+        result = compiler.call(wrapper, Pathname(file).read, options)
         puts "[1m[32m==>[0m #{file}" if $stdout.tty?
-        output
+        result['code']
       rescue ExecJS::RuntimeError
         puts $!.message
       end
