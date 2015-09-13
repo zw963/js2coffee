@@ -42,9 +42,9 @@ module Js2coffee
 
     def watched_files
       watched_files = Dir["./**/*.#{$script_extname}"]
-      if ENV['JS2COFFEE_EXCLUDE_PATTERN']
-        watched_files.reject! {|e| e =~ Regexp.union(ENV['JS2COFFEE_EXCLUDE_PATTERN']) }
-      end
+      exclude_pattern = ['node_modules|bower_components'] << ENV['JS2COFFEE_EXCLUDE_PATTERN']
+
+      watched_files.reject! {|e| e =~ /#{exclude_pattern.join('|')}/ }
       watched_files
     end
   end

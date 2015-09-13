@@ -54,16 +54,26 @@ You can run coffee script directly with: `-e` argments or pipe.
 ![File](http://zw963.github.io/snapshot15.png)
 ![File](http://zw963.github.io/snapshot16.png)
 
+## Environment variable
+
+You can setting `JS2COFFEE_EXCLUDE_PATTERN` to specify the pattern to be skipped when watching one directory.
+
+    $ export JS2COFFEE_EXCLUDE_PATTERN='one_pattern|another_pattern'
+
+js2coffee will always skip `node_modules` and `bower_components`.
+
 ## Support
 
   * MRI 1.9.3+
   * Rubinius 2.2+
 
 ## Compiler current used:
+
   * [CoffeeScript 1.1.0](http://coffeescript.org), used for convert from CoffeeScript to JavaScript.
   * [js2coffee 2.1.0](http://js2.coffee), used for convert JavaScript to CoffeeScript.
 
 ## History
+
 More update info, please See [CHANGELOG](https://github.com/zw963/js2coffee/blob/master/CHANGELOG) for details.
 
 ## Contributing
