@@ -31,7 +31,7 @@ WRAPPER
       def watch_file(file)
         file_path = Pathname(file)
         source_code = file_path.read
-        target_file, target_map = Js2coffee::PathHelper.new(file_path).create_coffee_path!
+        target_file, target_map = Js2coffee::PathHelper.new(file_path).create_target_path!
         # generate coffee and SourceMap.
         result = compiler.call(wrapper, source_code)
         target_file.write(result['code'])
