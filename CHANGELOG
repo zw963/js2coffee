@@ -1,3 +1,8 @@
+== 1.0.0 2015-09-13
+	* Rename current gem to js2coffee.
+        * Fix bunch of bugs, refactor.
+	* Introduce js2coffee library, used for convert js to coffee.
+	* use optparse to parse options.
 == 0.11.0 2015-08-30
 	* version 0.11.
 == 0.9.0 2015-08-30
