@@ -1,6 +1,6 @@
 # js2coffee [![Build Status](https://travis-ci.org/zw963/js2coffee.svg?branch=master)](https://travis-ci.org/zw963/js2coffee) [![Gem Version](https://badge.fury.io/rb/js2coffee.svg)](http://badge.fury.io/rb/js2coffee)
 
-Convert yours JavaScript to CoffeeScript, vice versa.
+Convert yours JavaScript to CoffeeScript, vice versa, just for ruby developer.
 
 ## Philosophy
 
@@ -18,13 +18,9 @@ Install via Rubygems
 
 ## Usage
 
-Run `js2coffee` or `js2coffee` individually.
+Run `js2coffee` or `js2coffee` individually. (old command `coff` is not available.)
 
 ### Compile script file to STDOUT.
-
-    $ coffee2js your_awesome.coffee
-
-Or ...
 
     $ coffee2js your_awesome.coffee
 
