@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 module Js2coffee
-  VERSION = [1, 0, 0]
+  VERSION = [1, 0, 1]
 
   class << VERSION
     def to_s

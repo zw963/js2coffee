@@ -1,3 +1,6 @@
+== 1.0.1 2015-09-13
+	* fix readme.
+        * coffee2js instead of old `coff` command.
 == 1.0.0 2015-09-13
 	* Rename current gem to js2coffee.
         * Fix bunch of bugs, refactor.
